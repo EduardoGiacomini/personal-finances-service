@@ -1,5 +1,5 @@
 <h1 align="center">Personal Finances</h1>
-<p align="center">Tenha controle sobre o seu fluxo financeiro pessoal</p>
+<p align="center">Have control over your personal cash flow</p>
 
 <p align="center">
     <a href="https://github.com/EduardoGiacomini">
@@ -10,34 +10,47 @@
     </a>
 </p>
 
-Tabela de conteúdos
+Summary
 =================
 <!--ts-->
-   * [Sobre](#sobre)
-   * [Histórias de usuários](#histórias-de-usuários)
-   * [Solução Técnica](#solução-técnica)
-   * [Como usar](#como-usar)
-      * [Pré-requisitos](#pré-requisitos)
-      * [Instalação](#instalação)
-      * [Executando](#executando)
-   * [Testes](#testes)
-   * [Tecnologias](#tecnologias)
+   * [About](#about)
+   * [User stories](#user-stories)
+      * [Transactions](#transactions)
+      * [Account](#account)
+   * [Design](#design)
+   * [How to use](#how-to-use)
+      * [Requirements](#requirements)
+      * [Instalation](#instalation)
+      * [Running](#running)
+   * [Tests](#tests)
+   * [Stack](#stack)
 <!--te-->
 
-## Sobre
+## About
 
-## Histórias de usuários
+## User stories
 
-## Solução Técnica
+### Transactions
+- [ ] As a user, I want to save my transactions (in/out), so I can figure out my expenses.
+- [ ] As a user, I want to see my current balance, so I can know if I can spend more money or not.
+- [ ] As a user, I want to be able to analyze my expenses (out transactions), so I can see how I usually spend my money.
+- [ ] As a user, I want to save my transactions as a file, so I can declare my income tax (imposto de renda) when needed. 
 
-## Como usar
+### Account
+- [ ] As a user, I want to create my personal account, so I can manage my money.
+- [ ] As a user, I want to authenticate in my personal account, so I can manage my money.
+- [ ] As a user, I want to reset my account password, so I can access my account if I forget it.
 
-### Pré-requisitos
+## Design
 
-### Instalação
+## How to use
 
-### Executando
+### Requirements
 
-## Testes
+### Instalation
 
-## Tecnologias
+### Running
+
+## Tests
+
+## Stack
