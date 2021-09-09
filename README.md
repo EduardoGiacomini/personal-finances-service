@@ -18,6 +18,8 @@ Summary
       * [Transactions](#transactions)
       * [Account](#account)
    * [Design](#design)
+      * [Entity Relationship Diagram](#entity-relationship-diagram)
+      * [Deployment Diagram](#deployment-diagram)
    * [How to use](#how-to-use)
       * [Requirements](#requirements)
       * [Instalation](#instalation)
@@ -42,6 +44,12 @@ Summary
 - [ ] As a user, I want to reset my account password, so I can access my account if I forget it.
 
 ## Design
+
+### Entity Relationship Diagram
+![Entity Relationship Diagram](./docs/entity-relationship-diagram.png)
+
+### Deployment Diagram
+![Deployment Diagram](./docs/deployment-diagram.png)
 
 ## How to use
 
