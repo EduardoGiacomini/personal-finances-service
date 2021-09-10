@@ -46,7 +46,7 @@ Summary
 ## Design
 
 ### Entity Relationship Diagram
-![Entity Relationship Diagram](./docs/entity-relationship-diagram.png)
+![Entity Relationship Diagram](./docs/database.png)
 
 ### Deployment Diagram
 ![Deployment Diagram](./docs/deployment-diagram.png)

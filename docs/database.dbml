@@ -1,7 +1,3 @@
-# Entity Relationship Diagram
-This diagram has been created with [dbdiagram](https://dbdiagram.io/home).
-
-```
 Table User {
   id varchar [pk, note: 'uuid']
   name varchar [not null]
@@ -20,13 +16,12 @@ Table Transaction {
   id varchar [pk, note: 'uuid']
   user varchar [ref: > User.id, not null]
   wallet varchar [ref: > Wallet.id, not null]
-  value double [not null]
-  kind TransactionKind [not null]
-  createdAt timestamp [note: 'When Transaction created']
+  value double
+  kind transactionKind
+  createdAt timestamp
 }
 
-Enum TransactionKind {
+Enum transactionKind {
   in
   out
 }
-```
