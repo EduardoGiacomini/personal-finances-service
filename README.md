@@ -49,7 +49,7 @@ Summary
 ![Entity Relationship Diagram](./docs/database.png)
 
 ### Deployment Diagram
-![Deployment Diagram](./docs/deployment-diagram.png)
+![Deployment Diagram](./docs/deployment.png)
 
 ## How to use
 
