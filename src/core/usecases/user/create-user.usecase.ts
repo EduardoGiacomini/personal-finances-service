@@ -1,9 +1,7 @@
-import { Injectable } from '@nestjs/common';
 import { UsersRepository } from '../../data-providers/users.repository';
 import { User } from '../../entities/user';
 import { DefaultBusinessException } from '../../exceptions/default-business.exception';
 
-@Injectable()
 export class CreateUserUseCase {
   constructor(private readonly repository: UsersRepository) {}
 
