@@ -1,6 +1,6 @@
 import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
 import { Response } from 'express';
-import { DefaultBusinessException } from '../../../core/exceptions/default-business.exception';
+import { DefaultBusinessException } from '../../../core/exceptions/default.business.exception';
 
 @Catch(DefaultBusinessException)
 export class DefaultExceptionFilter implements ExceptionFilter {
