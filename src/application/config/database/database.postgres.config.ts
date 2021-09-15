@@ -8,7 +8,7 @@ export class DatabasePostgresConfig {
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'task-management',
+      database: 'finances',
       autoLoadEntities: true,
       synchronize: true,
     };

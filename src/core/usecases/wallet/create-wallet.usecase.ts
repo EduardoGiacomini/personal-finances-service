@@ -16,7 +16,7 @@ export class CreateWalletUseCase {
       throw new NotFoundBusinessException(`The user ${userId} does not exist`);
     }
 
-    const wallet = <Wallet>{ user: userId, value: 0, updatedAt: new Date() };
+    const wallet = <Wallet>{ user: userId, value: 0 };
     return this.walletRepository.createWallet(wallet);
   }
 }

@@ -47,6 +47,5 @@ describe('Create Wallet UseCase', () => {
     expect(wallet).not.toBeUndefined();
     expect(wallet.user).toBe(userId);
     expect(wallet.value).toBe(0);
-    expect(wallet.updatedAt).toBeInstanceOf(Date);
   });
 });
