@@ -1,14 +1,14 @@
 import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
 import { Response } from 'express';
-import { DefaultBusinessException } from '../../../core/exceptions/default-business.exception';
+import { NotFoundBusinessException } from '../../../core/exceptions/not-found.business.exception';
 
-@Catch(DefaultBusinessException)
-export class DefaultExceptionFilter implements ExceptionFilter {
-  catch(exception: DefaultBusinessException, host: ArgumentsHost) {
+@Catch(NotFoundBusinessException)
+export class NotFoundExceptionFilter implements ExceptionFilter {
+  catch(exception: NotFoundBusinessException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const message = exception.message;
-    const status = 400;
+    const status = 404;
 
     response.status(status).json({ status, message });
   }
