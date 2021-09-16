@@ -13,4 +13,8 @@ export class WalletsPostgresRepository
     await this.save(walletToCreate);
     return walletToCreate;
   }
+
+  findWalletByUserId(user: string): Promise<Wallet> {
+    return this.findOne({ user });
+  }
 }

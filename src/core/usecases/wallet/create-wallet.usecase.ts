@@ -2,6 +2,7 @@ import { NotFoundBusinessException } from '../../exceptions/not-found.business.e
 import { UsersRepository } from '../../data-providers/users.repository';
 import { WalletsRepository } from '../../data-providers/wallets.repository';
 import { Wallet } from '../../entities/wallet';
+import { DefaultBusinessException } from '../../exceptions/default.business.exception';
 
 export class CreateWalletUseCase {
   constructor(
@@ -10,13 +11,29 @@ export class CreateWalletUseCase {
   ) {}
 
   async execute(userId: string): Promise<Wallet> {
-    const userFound = await this.usersRepository.findUserById(userId);
+    await this.checkIfUserExists(userId);
+    await this.checkIfUserAlreadyHasAWallet(userId);
+    return this.createUserWallet(userId);
+  }
 
+  async checkIfUserExists(userId: string) {
+    const userFound = await this.usersRepository.findUserById(userId);
     if (!userFound) {
       throw new NotFoundBusinessException(`The user ${userId} does not exist`);
     }
+  }
 
-    const wallet = <Wallet>{ user: userId, value: 0 };
+  async checkIfUserAlreadyHasAWallet(userId: string) {
+    const walletFound = await this.walletRepository.findWalletByUserId(userId);
+    if (walletFound) {
+      throw new DefaultBusinessException(
+        `The user ${userId} already has a wallet`,
+      );
+    }
+  }
+
+  async createUserWallet(userId: string) {
+    const wallet = <Wallet>{ user: userId, value: 0.0 };
     return this.walletRepository.createWallet(wallet);
   }
 }

@@ -18,7 +18,7 @@ export class WalletPostgresEntity implements Wallet {
   @JoinColumn()
   user: string;
 
-  @Column()
+  @Column({ type: 'double precision' })
   value: number;
 
   @UpdateDateColumn()
