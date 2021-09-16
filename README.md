@@ -3,11 +3,12 @@
 
 <p align="center">
     <a href="https://github.com/EduardoGiacomini">
-        <img alt="Made by Eduardo Giacomini" src="https://img.shields.io/badge/made%20by-EduardoGiacomini-167afc?style=flat-square">
+        <img alt="Made by Eduardo Giacomini" src="https://img.shields.io/badge/made%20by-EduardoGiacomini-167afc">
     </a>
     <a href="https://github.com/EduardoGiacomini/personal-finances-service/stargazers">
-        <img alt="Stargazers" src="https://img.shields.io/github/stars/EduardoGiacomini/personal-finances-service?color=167afc&style=flat-square">
+        <img alt="Stargazers" src="https://img.shields.io/github/stars/EduardoGiacomini/personal-finances-service?color=167afc">
     </a>
+    <img src="https://github.com/EduardoGiacomini/personal-finances-service/actions/workflows/ci.yml/badge.svg">
 </p>
 
 Summary
