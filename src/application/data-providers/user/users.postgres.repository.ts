@@ -14,6 +14,10 @@ export class UsersPostgresRepository
     return userToCreate;
   }
 
+  findUserById(id: string): Promise<User> {
+    return this.findOne({ id });
+  }
+
   findUserByEmail(email: string): Promise<User> {
     return this.findOne({ email });
   }

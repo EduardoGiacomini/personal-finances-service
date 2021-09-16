@@ -1,6 +1,6 @@
 export interface Wallet {
-  readonly id?: string;
+  id?: string;
   user: string;
   value: number;
-  updatedAt: Date;
+  updatedAt?: Date;
 }
