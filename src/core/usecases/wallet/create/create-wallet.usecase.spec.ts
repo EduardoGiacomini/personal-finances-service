@@ -1,10 +1,10 @@
 import { CreateWalletUseCase } from './create-wallet.usecase';
-import { NotFoundBusinessException } from '../../exceptions/not-found.business.exception';
-import { UsersRepository } from '../../data-providers/users.repository';
-import { WalletsRepository } from '../../data-providers/wallets.repository';
-import { User } from '../../entities/user';
-import { Wallet } from '../../entities/wallet';
-import { DefaultBusinessException } from '../../exceptions/default.business.exception';
+import { NotFoundBusinessException } from '../../../exceptions/not-found.business.exception';
+import { UsersRepository } from '../../../data-providers/users.repository';
+import { WalletsRepository } from '../../../data-providers/wallets.repository';
+import { User } from '../../../entities/user';
+import { Wallet } from '../../../entities/wallet';
+import { DefaultBusinessException } from '../../../exceptions/default.business.exception';
 
 describe('Create Wallet UseCase', () => {
   let createWalletUseCase: CreateWalletUseCase;

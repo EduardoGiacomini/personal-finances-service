@@ -1,8 +1,8 @@
-import { NotFoundBusinessException } from '../../exceptions/not-found.business.exception';
-import { UsersRepository } from '../../data-providers/users.repository';
-import { WalletsRepository } from '../../data-providers/wallets.repository';
-import { Wallet } from '../../entities/wallet';
-import { DefaultBusinessException } from '../../exceptions/default.business.exception';
+import { NotFoundBusinessException } from '../../../exceptions/not-found.business.exception';
+import { UsersRepository } from '../../../data-providers/users.repository';
+import { WalletsRepository } from '../../../data-providers/wallets.repository';
+import { Wallet } from '../../../entities/wallet';
+import { DefaultBusinessException } from '../../../exceptions/default.business.exception';
 
 export class CreateWalletUseCase {
   constructor(
