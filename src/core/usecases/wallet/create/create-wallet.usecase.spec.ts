@@ -27,6 +27,7 @@ describe('Create Wallet UseCase', () => {
   it('should throw an error when the user does not exist', async () => {
     const userId = '(this user does not exist)';
     usersRepositoryMock.findUserById = jest.fn((id: string) => null);
+    walletsRepositoryMock.findWalletByUserId = jest.fn((user: string) => null);
 
     await expect(() => createWalletUseCase.execute(userId)).rejects.toThrow(
       new NotFoundBusinessException(`The user ${userId} does not exist`),

@@ -11,8 +11,10 @@ export class CreateWalletUseCase {
   ) {}
 
   async execute(userId: string): Promise<Wallet> {
-    await this.checkIfUserExists(userId);
-    await this.checkIfUserAlreadyHasAWallet(userId);
+    await Promise.all([
+      this.checkIfUserExists(userId),
+      this.checkIfUserAlreadyHasAWallet(userId),
+    ]);
     return this.createUserWallet(userId);
   }
 
