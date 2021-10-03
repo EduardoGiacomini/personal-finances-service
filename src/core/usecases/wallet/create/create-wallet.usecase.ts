@@ -1,8 +1,8 @@
-import { NotFoundBusinessException } from '../../exceptions/not-found.business.exception';
-import { UsersRepository } from '../../data-providers/users.repository';
-import { WalletsRepository } from '../../data-providers/wallets.repository';
-import { Wallet } from '../../entities/wallet';
-import { DefaultBusinessException } from '../../exceptions/default.business.exception';
+import { NotFoundBusinessException } from '../../../exceptions/not-found.business.exception';
+import { UsersRepository } from '../../../data-providers/users.repository';
+import { WalletsRepository } from '../../../data-providers/wallets.repository';
+import { Wallet } from '../../../entities/wallet';
+import { DefaultBusinessException } from '../../../exceptions/default.business.exception';
 
 export class CreateWalletUseCase {
   constructor(
@@ -11,8 +11,10 @@ export class CreateWalletUseCase {
   ) {}
 
   async execute(userId: string): Promise<Wallet> {
-    await this.checkIfUserExists(userId);
-    await this.checkIfUserAlreadyHasAWallet(userId);
+    await Promise.all([
+      this.checkIfUserExists(userId),
+      this.checkIfUserAlreadyHasAWallet(userId),
+    ]);
     return this.createUserWallet(userId);
   }
 
