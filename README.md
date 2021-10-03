@@ -35,7 +35,7 @@ Summary
 
 ### Transactions
 - [ ] As a user, I want to save my transactions (in/out), so I can figure out my expenses.
-- [ ] As a user, I want to see my current balance, so I can know if I can spend more money or not.
+- [x] As a user, I want to see my current balance, so I can know if I can spend more money or not.
 - [ ] As a user, I want to be able to analyze my expenses (out transactions), so I can see how I usually spend my money.
 - [ ] As a user, I want to save my transactions as a file, so I can declare my income tax (imposto de renda) when needed. 
 
