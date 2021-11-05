@@ -4,11 +4,7 @@ export class DatabasePostgresConfig {
   static create(): TypeOrmModuleOptions {
     return {
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'finances',
+      url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: true,
     };
