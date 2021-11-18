@@ -1,12 +1,13 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CreateUserDto } from './data-transfer-objects/create-user.dto';
-import { User } from '../../../core/entities/user';
-import { CreateUserUseCase } from '../../../core/usecases/user/create-user.usecase';
+import { User } from '../../../../core/entities/user';
+import { CreateUserUseCase } from '../../../../core/usecases/user/create-user.usecase';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersPostgresRepository } from '../../data-providers/user/users.postgres.repository';
+import { UsersPostgresRepository } from '../../../data-providers/user/users.postgres.repository';
+import { CreateUserEntrypoint } from '../../protocol/user/create-user.entrypoint';
 
 @Controller('users')
-export class UserController {
+export class UserController implements CreateUserEntrypoint {
   private readonly createUserUserCase: CreateUserUseCase;
 
   constructor(

@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabasePostgresConfig } from './application/config/database/database.postgres.config';
-import { WalletModule } from './application/entrypoint/wallet/wallet.module';
-import { UserModule } from './application/entrypoint/user/user.module';
+import { WalletModule } from './application/entrypoint/rest/wallet/wallet.module';
+import { UserModule } from './application/entrypoint/rest/user/user.module';
 
 @Module({
   imports: [
