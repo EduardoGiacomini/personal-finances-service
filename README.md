@@ -3,10 +3,10 @@
 
 <p align="center">
     <a href="https://github.com/EduardoGiacomini">
-        <img alt="Made by Eduardo Giacomini" src="https://img.shields.io/badge/made%20by-EduardoGiacomini-167afc">
+        <img alt="Made by Eduardo Giacomini" src="https://img.shields.io/badge/made%20by-EduardoGiacomini-00BCD6">
     </a>
     <a href="https://github.com/EduardoGiacomini/personal-finances-service/stargazers">
-        <img alt="Stargazers" src="https://img.shields.io/github/stars/EduardoGiacomini/personal-finances-service?color=167afc">
+        <img alt="Stargazers" src="https://img.shields.io/github/stars/EduardoGiacomini/personal-finances-service?color=00BCD6">
     </a>
     <img src="https://github.com/EduardoGiacomini/personal-finances-service/actions/workflows/ci.yml/badge.svg">
 </p>
@@ -51,7 +51,23 @@ Carlos wants to understand how he spend his money, so he can cut unnecessary exp
 
 ## Design
 
-### Entity Relationship Diagram
+### Architecture
+For this project I am using a Layered Architecture based on the article [Descomplicando a Clean Architecture, Guilherme Biff Zarelli
+](https://medium.com/luizalabs/descomplicando-a-clean-architecture-cf4dfc4a1ac6), Ports and Adapters and Clean Architecture:
+
+![Architecture](./docs/architecture.png)
+
+The main proposal of this architecture is separate the domain code (entities, use cases and business logic) from infrastructure code (frameworks, controllers, databases, external APIs and caches).
+
+With this idea we can implement our domain rules independently of infrastructure by creating abstractions (ports) on the domain layer and providing different implementations (adapters) on infrastructure layer.
+
+In this way, our code becomes:
+- Flexible: We can provide different implementations to the domain, so we can easily change our database, orm, frameworks;
+- Testable: We can create mocks and stubs for the domain dependencies (implementing their interfaces);
+- Follow the SOLID principles: As our domain code depends on abstractions, we are following at least the Dependency Inversion Principle.
+
+### Database Schema
+For the storage I am using a relational database (Postgres). You can check the database schema on the following Entity Relationship Diagram:
 ![Entity Relationship Diagram](./docs/database.png)
 
 ### Deployment Diagram
