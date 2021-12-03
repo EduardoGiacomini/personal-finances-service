@@ -1,4 +1,4 @@
-export class DefaultBusinessException extends Error {
+export class UserAlreadyExistsException extends Error {
   constructor(message: string) {
     super(message);
   }

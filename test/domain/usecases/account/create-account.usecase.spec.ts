@@ -1,35 +1,14 @@
-interface User {
-  id?: string;
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface AccountInput {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface EmailValidator {
-  isValid(email: string): boolean;
-}
-
-interface PasswordValidator {
-  isValid(password: string): boolean;
-}
-
-interface LoadByEmailUserRepository {
-  loadByEmail(email: string): Promise<User>;
-}
-
-interface EncryptorService {
-  encrypt(password: string): Promise<string>;
-}
-
-interface CreateUserRepository {
-  create(user: User): Promise<User>;
-}
+import { User } from '../../../../src/domain/entities/user';
+import { EmailValidator } from '../../../../src/domain/validators/email.validator';
+import { PasswordValidator } from '../../../../src/domain/validators/password.validator';
+import { LoadByEmailUserRepository } from '../../../../src/domain/repositories/user/load-by-email-user.repository';
+import { CreateUserRepository } from '../../../../src/domain/repositories/user/create-user.repository';
+import { EncryptorService } from '../../../../src/domain/services/excryptor.service';
+import { CreateAccountUseCase } from '../../../../src/domain/usecases/account/create-account.usecase';
+import { InvalidEmailException } from '../../../../src/domain/exceptions/user/invalid-email.exception';
+import { InvalidPasswordException } from '../../../../src/domain/exceptions/user/invalid-password.exception';
+import { UserAlreadyExistsException } from '../../../../src/domain/exceptions/user/user-already-exists.exception';
+import { cloneDeep } from 'lodash';
 
 class EmailValidatorStub implements EmailValidator {
   email?: string;
@@ -63,7 +42,7 @@ class LoadByEmailUserRepositoryStub implements LoadByEmailUserRepository {
   async loadByEmail(email: string): Promise<User> {
     this.email = email;
     this.calls += 1;
-    return this.output;
+    return cloneDeep(this.output);
   }
 }
 
@@ -81,7 +60,7 @@ class CreateUserRepositoryStub implements CreateUserRepository {
     this.user = { name, email, password };
     this.calls += 1;
     this.output = { id: this.output.id, name, email, password };
-    return this.output;
+    return cloneDeep(this.output);
   }
 }
 
@@ -94,52 +73,6 @@ class EncryptorServiceStub implements EncryptorService {
     this.password = password;
     this.calls += 1;
     return this.output;
-  }
-}
-
-class InvalidEmailException extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
-
-class InvalidPasswordException extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
-
-class UserAlreadyExistsException extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
-
-class CreateAccountUseCase {
-  constructor(
-    private readonly emailValidator: EmailValidator,
-    private readonly passwordValidator: PasswordValidator,
-    private readonly encryptorService: EncryptorService,
-    private readonly loadByEmailUserRepository: LoadByEmailUserRepository,
-    private readonly createUserRepository: CreateUserRepository,
-  ) {}
-
-  async execute({ name, email, password }: AccountInput): Promise<User> {
-    if (!this.emailValidator.isValid(email)) {
-      throw new InvalidEmailException(`The email ${email} is invalid`);
-    }
-    if (!this.passwordValidator.isValid(password)) {
-      throw new InvalidPasswordException(`The password ${password} is invalid`);
-    }
-    if (await this.loadByEmailUserRepository.loadByEmail(email)) {
-      throw new UserAlreadyExistsException(`The user ${email} already exists`);
-    }
-    const encryptedPassword = await this.encryptorService.encrypt(password);
-    return this.createUserRepository.create({
-      name,
-      email,
-      password: encryptedPassword,
-    });
   }
 }
 
@@ -194,11 +127,11 @@ describe('Create account use case', () => {
     const promise = createAccountUseCase.execute({
       name,
       password,
-      email: 'invalidPassword',
+      email: 'invalidEmail',
     });
 
     await expect(promise).rejects.toThrow(InvalidEmailException);
-    expect(emailValidator.email).toBe('invalidPassword');
+    expect(emailValidator.email).toBe('invalidEmail');
     expect(emailValidator.calls).toBe(1);
   });
 
@@ -247,6 +180,8 @@ describe('Create account use case', () => {
     expect(createUserRepository.user.name).toBe(name);
     expect(createUserRepository.user.email).toBe(email);
     expect(createUserRepository.calls).toBe(1);
-    expect(createdUser).toStrictEqual(createUserRepository.output);
+    expect(createdUser.id).toStrictEqual(createUserRepository.output.id);
+    expect(createdUser.name).toStrictEqual(createUserRepository.output.name);
+    expect(createdUser.email).toStrictEqual(createUserRepository.output.email);
   });
 });
