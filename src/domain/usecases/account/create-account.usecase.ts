@@ -33,22 +33,42 @@ export class CreateAccountUseCase {
     email,
     password,
   }: AccountInput): Promise<AccountOutput> {
+    this.checkIfUserEmailIsValid(email);
+    this.checkIfUserPasswordIsValid(password);
+    await this.checkIfExistsAnUserAccountWithTheSameEmail(email);
+    const encryptedPassword = await this.encryptTheUserPassword(password);
+    const createdUser = await this.createUser(name, email, encryptedPassword);
+    delete createdUser.password;
+    return createdUser;
+  }
+
+  private checkIfUserEmailIsValid(email: string) {
     if (!this.emailValidator.isValid(email)) {
       throw new InvalidEmailException(`The email ${email} is invalid`);
     }
+  }
+
+  private checkIfUserPasswordIsValid(password: string) {
     if (!this.passwordValidator.isValid(password)) {
       throw new InvalidPasswordException(`The password ${password} is invalid`);
     }
+  }
+
+  private async checkIfExistsAnUserAccountWithTheSameEmail(email: string) {
     if (await this.loadByEmailUserRepository.loadByEmail(email)) {
       throw new UserAlreadyExistsException(`The user ${email} already exists`);
     }
-    const encryptedPassword = await this.encryptorService.encrypt(password);
-    const createdUser = await this.createUserRepository.create({
+  }
+
+  private async encryptTheUserPassword(password: string) {
+    return this.encryptorService.encrypt(password);
+  }
+
+  private async createUser(name: string, email: string, password: string) {
+    return this.createUserRepository.create({
       name,
       email,
-      password: encryptedPassword,
+      password,
     });
-    delete createdUser.password;
-    return createdUser;
   }
 }
