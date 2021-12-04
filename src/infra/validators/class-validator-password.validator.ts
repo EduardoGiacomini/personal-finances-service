@@ -1,8 +1,8 @@
 import { PasswordValidator } from '../../domain/validators';
-import { validateOrReject, Min } from 'class-validator';
+import { validateOrReject, MinLength } from 'class-validator';
 
 class Password {
-  @Min(6)
+  @MinLength(6)
   password: string;
 }
 
