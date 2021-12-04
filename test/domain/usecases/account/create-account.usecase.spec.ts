@@ -1,21 +1,27 @@
-import { User } from '../../../../src/domain/entities/user';
-import { EmailValidator } from '../../../../src/domain/validators/email.validator';
-import { PasswordValidator } from '../../../../src/domain/validators/password.validator';
-import { LoadByEmailUserRepository } from '../../../../src/domain/repositories/user/load-by-email-user.repository';
-import { CreateUserRepository } from '../../../../src/domain/repositories/user/create-user.repository';
-import { EncryptorService } from '../../../../src/domain/services/excryptor.service';
-import { CreateAccountUseCase } from '../../../../src/domain/usecases/account/create-account.usecase';
-import { InvalidEmailException } from '../../../../src/domain/exceptions/user/invalid-email.exception';
-import { InvalidPasswordException } from '../../../../src/domain/exceptions/user/invalid-password.exception';
-import { UserAlreadyExistsException } from '../../../../src/domain/exceptions/user/user-already-exists.exception';
 import { cloneDeep } from 'lodash';
+import { User } from '../../../../src/domain/entities';
+import { CreateAccountUseCase } from '../../../../src/domain/usecases/account/create-account.usecase';
+import { EncryptorService } from '../../../../src/domain/services';
+import {
+  EmailValidator,
+  PasswordValidator,
+} from '../../../../src/domain/validators';
+import {
+  CreateUserRepository,
+  LoadByEmailUserRepository,
+} from '../../../../src/domain/repositories/user';
+import {
+  InvalidEmailException,
+  InvalidPasswordException,
+  UserAlreadyExistsException,
+} from '../../../../src/domain/exceptions/user';
 
 class EmailValidatorStub implements EmailValidator {
   email?: string;
   output = true;
   calls = 0;
 
-  isValid(email: string): boolean {
+  async isValid(email: string): Promise<boolean> {
     this.email = email;
     this.calls += 1;
     return this.output;
@@ -27,7 +33,7 @@ class PasswordValidatorStub implements PasswordValidator {
   output = true;
   calls = 0;
 
-  isValid(password: string): boolean {
+  async isValid(password: string): Promise<boolean> {
     this.password = password;
     this.calls += 1;
     return this.output;
@@ -56,7 +62,7 @@ class CreateUserRepositoryStub implements CreateUserRepository {
   user?: User;
   calls = 0;
 
-  async create({ name, email, password }: User): Promise<User> {
+  async createUser({ name, email, password }: User): Promise<User> {
     this.user = { name, email, password };
     this.calls += 1;
     this.output = { id: this.output.id, name, email, password };

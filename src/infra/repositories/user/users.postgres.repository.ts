@@ -1,12 +1,15 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { UserPostgresEntity } from './user.postgres.entity';
-import { UsersRepository } from '../../../domain/data-providers/users.repository';
-import { User } from '../../../domain/entities/user';
+import { User } from '../../../domain/entities';
+import {
+  CreateUserRepository,
+  LoadByEmailUserRepository,
+} from '../../../domain/repositories/user';
 
 @EntityRepository(UserPostgresEntity)
 export class UsersPostgresRepository
   extends Repository<UserPostgresEntity>
-  implements UsersRepository
+  implements CreateUserRepository, LoadByEmailUserRepository
 {
   async createUser(user: User): Promise<User> {
     const userToCreate = this.create(user);
@@ -14,11 +17,7 @@ export class UsersPostgresRepository
     return userToCreate;
   }
 
-  findUserById(id: string): Promise<User> {
-    return this.findOne({ id });
-  }
-
-  findUserByEmail(email: string): Promise<User> {
+  loadByEmail(email: string): Promise<User> {
     return this.findOne({ email });
   }
 }

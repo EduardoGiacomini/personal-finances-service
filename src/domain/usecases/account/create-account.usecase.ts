@@ -1,11 +1,14 @@
-import { EmailValidator } from '../../validators/email.validator';
-import { PasswordValidator } from '../../validators/password.validator';
-import { LoadByEmailUserRepository } from '../../repositories/user/load-by-email-user.repository';
-import { CreateUserRepository } from '../../repositories/user/create-user.repository';
-import { EncryptorService } from '../../services/excryptor.service';
-import { InvalidEmailException } from '../../exceptions/user/invalid-email.exception';
-import { InvalidPasswordException } from '../../exceptions/user/invalid-password.exception';
-import { UserAlreadyExistsException } from '../../exceptions/user/user-already-exists.exception';
+import { EncryptorService } from '../../services';
+import { EmailValidator, PasswordValidator } from '../../validators';
+import {
+  LoadByEmailUserRepository,
+  CreateUserRepository,
+} from '../../repositories/user';
+import {
+  InvalidEmailException,
+  InvalidPasswordException,
+  UserAlreadyExistsException,
+} from '../../exceptions/user';
 
 export interface AccountInput {
   name: string;
@@ -33,8 +36,8 @@ export class CreateAccountUseCase {
     email,
     password,
   }: AccountInput): Promise<AccountOutput> {
-    this.checkIfUserEmailIsValid(email);
-    this.checkIfUserPasswordIsValid(password);
+    await this.checkIfUserEmailIsValid(email);
+    await this.checkIfUserPasswordIsValid(password);
     await this.checkIfExistsAnUserAccountWithTheSameEmail(email);
     const encryptedPassword = await this.encryptTheUserPassword(password);
     const createdUser = await this.createUser(name, email, encryptedPassword);
@@ -42,14 +45,14 @@ export class CreateAccountUseCase {
     return createdUser;
   }
 
-  private checkIfUserEmailIsValid(email: string) {
-    if (!this.emailValidator.isValid(email)) {
+  private async checkIfUserEmailIsValid(email: string) {
+    if (!(await this.emailValidator.isValid(email))) {
       throw new InvalidEmailException(`The email ${email} is invalid`);
     }
   }
 
-  private checkIfUserPasswordIsValid(password: string) {
-    if (!this.passwordValidator.isValid(password)) {
+  private async checkIfUserPasswordIsValid(password: string) {
+    if (!(await this.passwordValidator.isValid(password))) {
       throw new InvalidPasswordException(`The password ${password} is invalid`);
     }
   }
@@ -65,7 +68,7 @@ export class CreateAccountUseCase {
   }
 
   private async createUser(name: string, email: string, password: string) {
-    return this.createUserRepository.create({
+    return this.createUserRepository.createUser({
       name,
       email,
       password,
