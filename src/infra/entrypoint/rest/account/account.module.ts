@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AccountController } from './account.controller';
+import { CreateAccountController } from './create';
 import { UsersPostgresRepository } from '../../../repositories';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UsersPostgresRepository])],
-  controllers: [AccountController],
+  controllers: [CreateAccountController],
 })
 export class AccountModule {}

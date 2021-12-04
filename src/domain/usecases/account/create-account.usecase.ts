@@ -1,14 +1,9 @@
+import { UserAlreadyExistsException } from '../../exceptions/user';
 import { EncryptorService } from '../../services';
-import { EmailValidator, PasswordValidator } from '../../validators';
 import {
   LoadByEmailUserRepository,
   CreateUserRepository,
 } from '../../repositories/user';
-import {
-  InvalidEmailException,
-  InvalidPasswordException,
-  UserAlreadyExistsException,
-} from '../../exceptions/user';
 
 export interface AccountInput {
   name: string;
@@ -24,8 +19,6 @@ export interface AccountOutput {
 
 export class CreateAccountUseCase {
   constructor(
-    private readonly emailValidator: EmailValidator,
-    private readonly passwordValidator: PasswordValidator,
     private readonly encryptorService: EncryptorService,
     private readonly loadByEmailUserRepository: LoadByEmailUserRepository,
     private readonly createUserRepository: CreateUserRepository,
@@ -36,25 +29,11 @@ export class CreateAccountUseCase {
     email,
     password,
   }: AccountInput): Promise<AccountOutput> {
-    await this.checkIfUserEmailIsValid(email);
-    await this.checkIfUserPasswordIsValid(password);
     await this.checkIfExistsAnUserAccountWithTheSameEmail(email);
     const encryptedPassword = await this.encryptTheUserPassword(password);
     const createdUser = await this.createUser(name, email, encryptedPassword);
     delete createdUser.password;
     return createdUser;
-  }
-
-  private async checkIfUserEmailIsValid(email: string) {
-    if (!(await this.emailValidator.isValid(email))) {
-      throw new InvalidEmailException(`The email ${email} is invalid`);
-    }
-  }
-
-  private async checkIfUserPasswordIsValid(password: string) {
-    if (!(await this.passwordValidator.isValid(password))) {
-      throw new InvalidPasswordException(`The password ${password} is invalid`);
-    }
   }
 
   private async checkIfExistsAnUserAccountWithTheSameEmail(email: string) {

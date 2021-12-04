@@ -1,44 +1,12 @@
 import { cloneDeep } from 'lodash';
 import { User } from '../../../../src/domain/entities';
 import { CreateAccountUseCase } from '../../../../src/domain/usecases/account/create-account.usecase';
+import { UserAlreadyExistsException } from '../../../../src/domain/exceptions/user';
 import { EncryptorService } from '../../../../src/domain/services';
-import {
-  EmailValidator,
-  PasswordValidator,
-} from '../../../../src/domain/validators';
 import {
   CreateUserRepository,
   LoadByEmailUserRepository,
 } from '../../../../src/domain/repositories/user';
-import {
-  InvalidEmailException,
-  InvalidPasswordException,
-  UserAlreadyExistsException,
-} from '../../../../src/domain/exceptions/user';
-
-class EmailValidatorStub implements EmailValidator {
-  email?: string;
-  output = true;
-  calls = 0;
-
-  async isValid(email: string): Promise<boolean> {
-    this.email = email;
-    this.calls += 1;
-    return this.output;
-  }
-}
-
-class PasswordValidatorStub implements PasswordValidator {
-  password?: string;
-  output = true;
-  calls = 0;
-
-  async isValid(password: string): Promise<boolean> {
-    this.password = password;
-    this.calls += 1;
-    return this.output;
-  }
-}
 
 class LoadByEmailUserRepositoryStub implements LoadByEmailUserRepository {
   output: User = null;
@@ -85,29 +53,21 @@ class EncryptorServiceStub implements EncryptorService {
 class CreateAccountFactory {
   static create(): {
     createAccountUseCase: CreateAccountUseCase;
-    emailValidator: EmailValidatorStub;
-    passwordValidator: PasswordValidatorStub;
     encryptorService: EncryptorServiceStub;
     loadByEmailUserRepository: LoadByEmailUserRepositoryStub;
     createUserRepository: CreateUserRepositoryStub;
   } {
-    const emailValidator = new EmailValidatorStub();
-    const passwordValidator = new PasswordValidatorStub();
     const encryptorService = new EncryptorServiceStub();
     const loadByEmailUserRepository = new LoadByEmailUserRepositoryStub();
     const createUserRepository = new CreateUserRepositoryStub();
     const createAccountUseCase = new CreateAccountUseCase(
-      emailValidator,
-      passwordValidator,
       encryptorService,
       loadByEmailUserRepository,
       createUserRepository,
     );
     return {
       createAccountUseCase,
-      emailValidator,
       encryptorService,
-      passwordValidator,
       loadByEmailUserRepository,
       createUserRepository,
     };
@@ -123,38 +83,6 @@ describe('Create account use case', () => {
     const { createAccountUseCase } = CreateAccountFactory.create();
 
     expect(createAccountUseCase.execute).toBeDefined();
-  });
-
-  it('should throw an error when the email is invalid', async () => {
-    const { createAccountUseCase, emailValidator } =
-      CreateAccountFactory.create();
-    emailValidator.output = false;
-
-    const promise = createAccountUseCase.execute({
-      name,
-      password,
-      email: 'invalidEmail',
-    });
-
-    await expect(promise).rejects.toThrow(InvalidEmailException);
-    expect(emailValidator.email).toBe('invalidEmail');
-    expect(emailValidator.calls).toBe(1);
-  });
-
-  it('should throw an error when the password is invalid', async () => {
-    const { createAccountUseCase, passwordValidator } =
-      CreateAccountFactory.create();
-    passwordValidator.output = false;
-
-    const promise = createAccountUseCase.execute({
-      name,
-      email,
-      password: '12345',
-    });
-
-    await expect(promise).rejects.toThrow(InvalidPasswordException);
-    expect(passwordValidator.password).toBe('12345');
-    expect(passwordValidator.calls).toBe(1);
   });
 
   it('should throw an error when the user already exists', async () => {
