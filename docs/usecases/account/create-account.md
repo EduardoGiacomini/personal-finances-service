@@ -9,12 +9,11 @@
 6. The app registers carlos;
 7. The app returns data from carlos account.
 
-> ### Alternative flow - Invalid email
-1. The app returns an error;
+> ### Alternative flow - Step 2 - Invalid email
+1. The app returns an error (`invalid email`);
 
-> ### Alternative flow - Invalid password
-1. The app returns an error;
+> ### Alternative flow - Step 3 - Invalid password
+1. The app returns an error (`invalid password`);
 
-> ### Alternative flow - User already exists
-1. The app returns an error;
-
+> ### Alternative flow - Step 4 - User already exists
+1. The app returns an error (`user already exists`);

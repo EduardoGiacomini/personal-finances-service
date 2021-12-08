@@ -2,7 +2,7 @@
 
 ## Account
 - [Create account](account/create-account.md);
-- [Authenticate]();
+- [Authenticate](account/authenticate.md);
 - [Reset password]().
 
 ## Transactions
