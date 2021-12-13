@@ -48,6 +48,10 @@ class EncryptorServiceStub implements EncryptorService {
     this.calls += 1;
     return this.output;
   }
+
+  async compare(encryptedPassword: string, password: string): Promise<boolean> {
+    throw new Error('Method not implemented');
+  }
 }
 
 class CreateAccountFactory {

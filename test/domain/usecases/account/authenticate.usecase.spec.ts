@@ -1,6 +1,12 @@
 import { LoadByEmailUserRepository } from '../../../../src/domain/repositories/user';
 import { User } from '../../../../src/domain/entities';
 import { cloneDeep } from 'lodash';
+import {
+  EncryptorService,
+  TokenService,
+} from '../../../../src/domain/services';
+import { AuthenticateUseCase } from '../../../../src/domain/usecases/account/authenticate.usecase';
+import { EmailOrPasswordInvalidException } from '../../../../src/domain/exceptions/user';
 
 class LoadByEmailUserRepositoryStub implements LoadByEmailUserRepository {
   output: User = {
@@ -19,10 +25,6 @@ class LoadByEmailUserRepositoryStub implements LoadByEmailUserRepository {
   }
 }
 
-interface EncryptorService {
-  compare(encryptedPassword: string, password: string): Promise<boolean>;
-}
-
 class EncryptorServiceStub implements EncryptorService {
   output = true;
   encryptedPassword?: string;
@@ -35,10 +37,10 @@ class EncryptorServiceStub implements EncryptorService {
     this.calls += 1;
     return this.output;
   }
-}
 
-interface TokenService {
-  sign(id: string): Promise<string>;
+  async encrypt(password: string): Promise<string> {
+    throw new Error('Method not implemented');
+  }
 }
 
 class TokenServiceStub implements TokenService {
@@ -51,50 +53,6 @@ class TokenServiceStub implements TokenService {
     this.id = id;
     this.calls += 1;
     return this.output;
-  }
-}
-
-class EmailOrPasswordInvalidException extends Error {
-  code = 'EMAIL_OR_PASSWORD_INVALID_EXCEPTION';
-
-  constructor(message: string) {
-    super(message);
-  }
-}
-
-export interface AuthenticateInput {
-  email: string;
-  password: string;
-}
-
-interface AuthenticateOutput {
-  token: string;
-}
-
-class AuthenticateUseCase {
-  constructor(
-    private readonly encryptorService: EncryptorServiceStub,
-    private readonly tokenService: TokenServiceStub,
-    private readonly loadByEmailUserRepository: LoadByEmailUserRepository,
-  ) {}
-
-  async execute({
-    email,
-    password,
-  }: AuthenticateInput): Promise<AuthenticateOutput> {
-    const user = await this.loadByEmailUserRepository.loadByEmail(email);
-    if (!user) {
-      throw new EmailOrPasswordInvalidException('Email os password invalid');
-    }
-    const matchPasswords = await this.encryptorService.compare(
-      user.password,
-      password,
-    );
-    if (!matchPasswords) {
-      throw new EmailOrPasswordInvalidException('Email os password invalid');
-    }
-    const token = await this.tokenService.sign(user.id);
-    return { token };
   }
 }
 
