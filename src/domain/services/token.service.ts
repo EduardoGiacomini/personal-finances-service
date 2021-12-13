@@ -1,3 +1,3 @@
 export interface TokenService {
-  sign(id: string): Promise<string>;
+  sign(id: string, expiresIn?: string): string;
 }

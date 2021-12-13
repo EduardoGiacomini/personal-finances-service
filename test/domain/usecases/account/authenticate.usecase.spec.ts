@@ -49,7 +49,7 @@ class TokenServiceStub implements TokenService {
   id?: string;
   calls = 0;
 
-  async sign(id: string): Promise<string> {
+  sign(id: string): string {
     this.id = id;
     this.calls += 1;
     return this.output;
