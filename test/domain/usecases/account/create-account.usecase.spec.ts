@@ -2,11 +2,11 @@ import { cloneDeep } from 'lodash';
 import { User } from '../../../../src/domain/entities';
 import { CreateAccountUseCase } from '../../../../src/domain/usecases/account/create-account.usecase';
 import { UserAlreadyExistsException } from '../../../../src/domain/exceptions/user';
-import { EncryptorService } from '../../../../src/domain/services';
+import { EncryptorService } from '../../../../src/domain/ports/services';
 import {
   CreateUserRepository,
   LoadByEmailUserRepository,
-} from '../../../../src/domain/repositories/user';
+} from '../../../../src/domain/ports/repositories/user';
 
 class LoadByEmailUserRepositoryStub implements LoadByEmailUserRepository {
   output: User = null;

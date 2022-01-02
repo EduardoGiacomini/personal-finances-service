@@ -1,10 +1,10 @@
-import { LoadByEmailUserRepository } from '../../../../src/domain/repositories/user';
+import { LoadByEmailUserRepository } from '../../../../src/domain/ports/repositories/user';
 import { User } from '../../../../src/domain/entities';
 import { cloneDeep } from 'lodash';
 import {
   EncryptorService,
   TokenService,
-} from '../../../../src/domain/services';
+} from '../../../../src/domain/ports/services';
 import { AuthenticateUseCase } from '../../../../src/domain/usecases/account/authenticate.usecase';
 import { EmailOrPasswordInvalidException } from '../../../../src/domain/exceptions/user';
 

@@ -1,10 +1,10 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { UserPostgresEntity } from './user.postgres.entity';
-import { User } from '../../../domain/entities';
+import { User } from '../../../../domain/entities';
 import {
   CreateUserRepository,
   LoadByEmailUserRepository,
-} from '../../../domain/repositories/user';
+} from '../../../../domain/ports/repositories/user';
 
 @EntityRepository(UserPostgresEntity)
 export class UsersPostgresRepository

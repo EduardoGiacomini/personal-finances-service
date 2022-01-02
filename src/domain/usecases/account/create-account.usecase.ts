@@ -1,21 +1,21 @@
 import { UserAlreadyExistsException } from '../../exceptions/user';
-import { EncryptorService } from '../../services';
+import { EncryptorService } from '../../ports/services';
 import {
   LoadByEmailUserRepository,
   CreateUserRepository,
-} from '../../repositories/user';
+} from '../../ports/repositories/user';
 
-export interface AccountInput {
+export type AccountInput = {
   name: string;
   email: string;
   password: string;
-}
+};
 
-export interface AccountOutput {
+export type AccountOutput = {
   id?: string;
   name: string;
   email: string;
-}
+};
 
 export class CreateAccountUseCase {
   constructor(
@@ -30,23 +30,27 @@ export class CreateAccountUseCase {
     password,
   }: AccountInput): Promise<AccountOutput> {
     await this.checkIfExistsAnUserAccountWithTheSameEmail(email);
-    const encryptedPassword = await this.encryptTheUserPassword(password);
-    const createdUser = await this.createUser(name, email, encryptedPassword);
+    const encryptedPassword = await this.encryptUserPassword(password);
+    const createdUser = await this.createUser({
+      name,
+      email,
+      password: encryptedPassword,
+    });
     delete createdUser.password;
     return createdUser;
   }
 
-  private async checkIfExistsAnUserAccountWithTheSameEmail(email: string) {
+  private async checkIfExistsAnUserAccountWithTheSameEmail(email) {
     if (await this.loadByEmailUserRepository.loadByEmail(email)) {
       throw new UserAlreadyExistsException(`The user ${email} already exists`);
     }
   }
 
-  private async encryptTheUserPassword(password: string) {
+  private async encryptUserPassword(password) {
     return this.encryptorService.encrypt(password);
   }
 
-  private async createUser(name: string, email: string, password: string) {
+  private async createUser({ name, email, password }) {
     return this.createUserRepository.createUser({
       name,
       email,

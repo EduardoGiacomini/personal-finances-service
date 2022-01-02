@@ -1,4 +1,4 @@
-import { EncryptorService } from '../../domain/services';
+import { EncryptorService } from '../../../domain/ports/services';
 import { hash, compare } from 'bcrypt';
 
 export class BcryptEncryptorService implements EncryptorService {

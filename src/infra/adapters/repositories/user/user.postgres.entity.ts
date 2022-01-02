@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../../../domain/entities/user';
+import { User } from '../../../../domain/entities';
 
 @Entity('users')
 export class UserPostgresEntity implements User {

@@ -1,10 +1,10 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersPostgresRepository } from '../../../../repositories';
+import { UsersPostgresRepository } from '../../../repositories';
 import {
   BcryptEncryptorService,
   JsonWebTokenTokenService,
-} from '../../../../services';
+} from '../../../services';
 import {
   AuthenticateUseCase,
   AuthenticateOutput,

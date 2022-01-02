@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersPostgresRepository } from '../../../../repositories';
-import { BcryptEncryptorService } from '../../../../services';
+import { UsersPostgresRepository } from '../../../repositories';
+import { BcryptEncryptorService } from '../../../services';
 import {
   CreateAccountUseCase,
   AccountOutput,

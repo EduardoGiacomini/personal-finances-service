@@ -1,4 +1,4 @@
-import { TokenService } from '../../domain/services';
+import { TokenService } from '../../../domain/ports/services';
 import { sign } from 'jsonwebtoken';
 
 export class JsonWebTokenTokenService implements TokenService {

@@ -1,15 +1,15 @@
 version: '3.2'
 
 services:
-  service:
-    container_name: personal-finances-service
-    build: .
-    ports:
-      - 3000:3000
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@database:5432/finances
-    depends_on:
-      - database
+#  service:
+#    container_name: personal-finances-service
+#    build: .
+#    ports:
+#      - 3000:3000
+#    environment:
+#      DATABASE_URL: postgres://postgres:postgres@database:5432/finances
+#    depends_on:
+#      - database
 
   database:
     container_name: personal-finances-database
