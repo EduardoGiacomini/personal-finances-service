@@ -5,6 +5,7 @@ import { EmailOrPasswordInvalidException } from '../../exceptions/user';
 export type AuthenticateInput = {
   email: string;
   password: string;
+  rememberMe?: boolean;
 };
 
 export type AuthenticateOutput = {
@@ -16,16 +17,21 @@ export class AuthenticateUseCase {
     private readonly encryptorService: EncryptorService,
     private readonly tokenService: TokenService,
     private readonly loadByEmailUserRepository: LoadByEmailUserRepository,
+    private readonly longTokenExpiresIn: string,
   ) {}
 
   async execute({
     email,
     password,
+    rememberMe,
   }: AuthenticateInput): Promise<AuthenticateOutput> {
     const user = await this.getUserByEmail(email);
-    this.checkIfUserExists(user);
-    await this.checkIfUserPasswordMatchesWithInputPassword(user, password);
-    const token = await this.generateAccessToken(user);
+    this.thrownAnErrorIfUserDoesNotExists(user);
+    await this.thrownAnErrorIfUserPasswordDoesNotMatchesWithInputPassword(
+      user,
+      password,
+    );
+    const token = await this.generateAccessToken(user, rememberMe);
     return { token };
   }
 
@@ -33,13 +39,16 @@ export class AuthenticateUseCase {
     return this.loadByEmailUserRepository.loadByEmail(email);
   }
 
-  private checkIfUserExists(user) {
+  private thrownAnErrorIfUserDoesNotExists(user) {
     if (!user) {
       throw new EmailOrPasswordInvalidException('Email or password invalid');
     }
   }
 
-  private async checkIfUserPasswordMatchesWithInputPassword(user, password) {
+  private async thrownAnErrorIfUserPasswordDoesNotMatchesWithInputPassword(
+    user,
+    password,
+  ) {
     const matchPasswords = await this.encryptorService.compare(
       user.password,
       password,
@@ -49,7 +58,10 @@ export class AuthenticateUseCase {
     }
   }
 
-  private async generateAccessToken(user) {
+  private async generateAccessToken(user, shouldIRememberUser) {
+    if (shouldIRememberUser) {
+      return this.tokenService.sign(user.id, this.longTokenExpiresIn);
+    }
     return this.tokenService.sign(user.id);
   }
 }

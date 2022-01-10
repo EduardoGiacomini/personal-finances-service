@@ -47,17 +47,19 @@ class TokenServiceStub implements TokenService {
   output =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OTAifQ.v6RMksQKb73Fln73fYo6fLw7iFrJ_Bwb7VE9uvxVZSs';
   id?: string;
+  expiresIn?: string;
   calls = 0;
 
-  sign(id: string): string {
+  sign(id: string, expiresIn?: string): string {
     this.id = id;
+    this.expiresIn = expiresIn;
     this.calls += 1;
     return this.output;
   }
 }
 
 class AuthenticateFactory {
-  static create(): {
+  static create(longTokenExpiresIn: string): {
     encryptorService: EncryptorServiceStub;
     tokenService: TokenServiceStub;
     loadByEmailUserRepository: LoadByEmailUserRepositoryStub;
@@ -70,6 +72,7 @@ class AuthenticateFactory {
       encryptorService,
       tokenService,
       loadByEmailUserRepository,
+      longTokenExpiresIn,
     );
     return {
       encryptorService,
@@ -83,16 +86,18 @@ class AuthenticateFactory {
 describe('Authenticate use case', () => {
   const email = 'carloseduardo.diasgiacomini@gmail.com';
   const password = '123456';
+  const longTokenExpiresIn = '30d';
 
   it('should have and execute method defined', () => {
-    const { authenticateUseCase } = AuthenticateFactory.create();
+    const { authenticateUseCase } =
+      AuthenticateFactory.create(longTokenExpiresIn);
 
     expect(authenticateUseCase.execute).toBeDefined();
   });
 
   it('should return an error when the user does not exist', async () => {
     const { loadByEmailUserRepository, authenticateUseCase } =
-      AuthenticateFactory.create();
+      AuthenticateFactory.create(longTokenExpiresIn);
     loadByEmailUserRepository.output = null;
 
     const promise = authenticateUseCase.execute({ email, password });
@@ -104,7 +109,7 @@ describe('Authenticate use case', () => {
 
   it('should return an error when the passwords does not matches', async () => {
     const { encryptorService, loadByEmailUserRepository, authenticateUseCase } =
-      AuthenticateFactory.create();
+      AuthenticateFactory.create(longTokenExpiresIn);
     encryptorService.output = false;
 
     const promise = authenticateUseCase.execute({ email, password });
@@ -117,14 +122,31 @@ describe('Authenticate use case', () => {
     expect(encryptorService.calls).toBe(1);
   });
 
-  it('should return an authenticated token when the email and password matches', async () => {
+  it('should return a default authenticated token when the email and password matches', async () => {
     const { tokenService, loadByEmailUserRepository, authenticateUseCase } =
-      AuthenticateFactory.create();
+      AuthenticateFactory.create(longTokenExpiresIn);
 
     const { token } = await authenticateUseCase.execute({ email, password });
 
     expect(token).toBe(tokenService.output);
     expect(tokenService.id).toBe(loadByEmailUserRepository.output.id);
+    expect(tokenService.expiresIn).toBeUndefined();
+    expect(tokenService.calls).toBe(1);
+  });
+
+  it('should return a long authenticated token when the email and password matches and remember me is provided', async () => {
+    const { tokenService, loadByEmailUserRepository, authenticateUseCase } =
+      AuthenticateFactory.create(longTokenExpiresIn);
+
+    const { token } = await authenticateUseCase.execute({
+      email,
+      password,
+      rememberMe: true,
+    });
+
+    expect(token).toBe(tokenService.output);
+    expect(tokenService.id).toBe(loadByEmailUserRepository.output.id);
+    expect(tokenService.expiresIn).toBe(longTokenExpiresIn);
     expect(tokenService.calls).toBe(1);
   });
 });
