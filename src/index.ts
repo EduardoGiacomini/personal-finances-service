@@ -1,5 +1,8 @@
-import { Example } from "@domain/example";
+import { ApplicationFactory } from "./infra";
 
-const example: Example = { name: "Carlos" };
+async function start() {
+  const app = ApplicationFactory.create();
+  await app.start();
+}
 
-console.log("Hello world!", example);
+start();

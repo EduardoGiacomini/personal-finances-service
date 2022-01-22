@@ -1,8 +1,14 @@
 import express, { Express } from "express";
 import cors from "cors";
+import factories from "./factories";
 import { defaultExceptionMiddleware } from "./adapters/http/middlewares";
 import { MongoDBDatabase } from "./config/mongodb.database";
-import { API_NAME, API_PORT, DATABASE_URL } from "./config/environment";
+import {
+  API_NAME,
+  API_PORT,
+  API_PREFIX_URL,
+  DATABASE_URL,
+} from "./config/environment";
 
 export class ApplicationFactory {
   static create(): Application {
@@ -22,7 +28,10 @@ export class Application {
   }
 
   private registerRoutes() {
-    // TODO: create routes
+    for (const factory in factories) {
+      const route = factories[factory].create();
+      this.app.use(API_PREFIX_URL, route);
+    }
   }
 
   private registerMiddlewares() {
