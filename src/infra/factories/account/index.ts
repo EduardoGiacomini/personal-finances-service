@@ -1,3 +1,4 @@
-import { CreateAccountFactory } from "./create-account.factory";
+import { AuthenticateAccountFactory } from "./authenticate.account.factory";
+import { CreateAccountFactory } from "./create.account.factory";
 
-export { CreateAccountFactory };
+export { AuthenticateAccountFactory, CreateAccountFactory };

@@ -1,4 +1,4 @@
-import { CreateAccountInput } from "@domain/usecases/account/create-account.usecase";
+import { CreateAccountInput } from "@domain/usecases/account/create.account.usecase";
 import { IsEmail, IsString, MinLength } from "class-validator";
 
 export class CreateAccountDTO implements CreateAccountInput {

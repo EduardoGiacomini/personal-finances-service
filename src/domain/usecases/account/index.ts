@@ -1,3 +1,4 @@
-import { CreateAccountUseCase } from "./create-account.usecase";
+import { AuthenticateAccountUseCase } from "./authenticate.account.usecase";
+import { CreateAccountUseCase } from "./create.account.usecase";
 
-export { CreateAccountUseCase };
+export { AuthenticateAccountUseCase, CreateAccountUseCase };

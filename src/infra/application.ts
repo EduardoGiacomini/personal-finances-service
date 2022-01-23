@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import factories from "./factories";
 import { defaultExceptionMiddleware } from "./adapters/http/middlewares";
 import { MongoDBDatabase } from "./config/mongodb.database";
@@ -21,6 +22,7 @@ export class Application {
 
   constructor() {
     this.app = express();
+    this.app.use(cookieParser());
     this.app.use(cors());
     this.app.use(express.json());
     this.registerRoutes();
