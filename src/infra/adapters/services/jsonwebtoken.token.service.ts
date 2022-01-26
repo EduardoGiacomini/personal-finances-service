@@ -1,5 +1,5 @@
 import { TokenService } from "@domain/ports/services";
-import { sign } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 
 export class JsonWebTokenTokenService implements TokenService {
   private readonly secret: string;
@@ -10,5 +10,13 @@ export class JsonWebTokenTokenService implements TokenService {
 
   sign(id: string, expiresIn: string | number): string {
     return sign({ id }, this.secret, { expiresIn });
+  }
+
+  verify(token: string): any {
+    try {
+      return verify(token, this.secret);
+    } catch (error) {
+      return null;
+    }
   }
 }

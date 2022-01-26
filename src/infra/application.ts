@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import factories from "./factories";
-import { defaultExceptionMiddleware } from "./adapters/http/middlewares";
+import { handleDefaultExceptionMiddleware } from "./adapters/http/middlewares";
 import { MongoDBDatabase } from "./config/mongodb.database";
 import {
   API_NAME,
@@ -22,9 +22,9 @@ export class Application {
 
   constructor() {
     this.app = express();
-    this.app.use(cookieParser());
     this.app.use(cors());
     this.app.use(express.json());
+    this.app.use(cookieParser());
     this.registerRoutes();
     this.registerMiddlewares();
   }
@@ -37,7 +37,7 @@ export class Application {
   }
 
   private registerMiddlewares() {
-    this.app.use(defaultExceptionMiddleware);
+    this.app.use(handleDefaultExceptionMiddleware);
   }
 
   async start(): Promise<void> {

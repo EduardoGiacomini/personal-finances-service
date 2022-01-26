@@ -2,7 +2,7 @@ import { Route } from "@infra/protocol";
 import { Router, Request, Response, NextFunction } from "express";
 import { CreateAccountUseCase } from "@domain/usecases/account";
 import { CreateAccountController } from "@infra/adapters/http/modules/account/create/create.account.controller";
-import { validationMiddleware } from "@infra/adapters/http/middlewares";
+import { validateDtoMiddleware } from "@infra/adapters/http/middlewares";
 import { CreateAccountDTO } from "@infra/adapters/http/modules/account/create/create.account.dto";
 
 export class CreateAccountRoute implements Route {
@@ -12,7 +12,7 @@ export class CreateAccountRoute implements Route {
     this.route = Router();
     this.route.post(
       "/users",
-      validationMiddleware(CreateAccountDTO),
+      validateDtoMiddleware(CreateAccountDTO),
       (request: Request, response: Response, next: NextFunction) =>
         new CreateAccountController(this.createAccountUseCase).execute(
           request,

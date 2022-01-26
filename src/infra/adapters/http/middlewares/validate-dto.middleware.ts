@@ -3,7 +3,7 @@ import { validateOrReject, ValidationError } from "class-validator";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { ValidationException } from "@infra/exceptions";
 
-export function validationMiddleware(DTO: any): RequestHandler {
+export function validateDtoMiddleware(DTO: any): RequestHandler {
   return async (request: Request, response: Response, next: NextFunction) => {
     try {
       await validateOrReject(plainToClass(DTO, request.body));

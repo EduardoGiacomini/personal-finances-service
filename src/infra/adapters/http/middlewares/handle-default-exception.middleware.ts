@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export function defaultExceptionMiddleware(
+export function handleDefaultExceptionMiddleware(
   error: any,
   request: Request,
   response: Response,

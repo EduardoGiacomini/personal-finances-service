@@ -1,6 +1,6 @@
 import { Route } from "@infra/protocol";
 import { Router, Request, Response, NextFunction } from "express";
-import { validationMiddleware } from "@infra/adapters/http/middlewares";
+import { validateDtoMiddleware } from "@infra/adapters/http/middlewares";
 import { AuthenticateAccountDTO } from "@infra/adapters/http/modules/account/authenticate/authenticate.account.dto";
 import { AuthenticateAccountUseCase } from "@domain/usecases/account";
 import { AuthenticateAccountController } from "@infra/adapters/http/modules/account/authenticate/authenticate.account.controller";
@@ -14,7 +14,7 @@ export class AuthenticateAccountRoute implements Route {
     this.route = Router();
     this.route.post(
       "/auth",
-      validationMiddleware(AuthenticateAccountDTO),
+      validateDtoMiddleware(AuthenticateAccountDTO),
       (request: Request, response: Response, next: NextFunction) =>
         new AuthenticateAccountController(
           this.authenticateAccountUseCase

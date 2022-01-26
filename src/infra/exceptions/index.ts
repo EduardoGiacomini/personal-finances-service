@@ -1,3 +1,4 @@
+import { UnauthorizedException } from "./unauthorized.exception";
 import { ValidationException } from "./validation.exception";
 
-export { ValidationException };
+export { UnauthorizedException, ValidationException };
