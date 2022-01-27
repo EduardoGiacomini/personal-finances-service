@@ -26,7 +26,7 @@ const userSchema = new Schema<User>(
       type: Boolean,
       required: false,
       default: false,
-    }
+    },
   },
   {
     timestamps: true,

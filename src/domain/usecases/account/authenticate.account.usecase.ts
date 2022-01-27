@@ -1,14 +1,13 @@
 import { UseCase } from "@domain/protocol";
-import { EncryptorService, TokenService } from "@domain/ports/services";
+import { EncryptorService } from "@domain/ports/services";
 import { GetByEmailUserRepository } from "@domain/ports/repositories/user";
 import { EmailOrPasswordIncorrectException } from "@domain/exceptions/account";
+import { User } from "@domain/entities";
 
 export class AuthenticateAccountUseCase implements UseCase {
   constructor(
     private readonly getByEmailUserRepository: GetByEmailUserRepository,
-    private readonly encryptorService: EncryptorService,
-    private readonly tokenService: TokenService,
-    private readonly tokenExpiration: string | number
+    private readonly encryptorService: EncryptorService
   ) {}
 
   async execute({
@@ -21,8 +20,8 @@ export class AuthenticateAccountUseCase implements UseCase {
       user,
       password
     );
-    const token = await this.generateAccessToken(user);
-    return { token };
+    user.password = undefined;
+    return { user };
   }
 
   private async getUserByEmail(email) {
@@ -47,10 +46,6 @@ export class AuthenticateAccountUseCase implements UseCase {
       throw new EmailOrPasswordIncorrectException();
     }
   }
-
-  private async generateAccessToken(user) {
-    return this.tokenService.sign(user.id, this.tokenExpiration);
-  }
 }
 
 export type AuthenticateInput = {
@@ -59,5 +54,5 @@ export type AuthenticateInput = {
 };
 
 export type AuthenticateOutput = {
-  token: string;
+  user: User;
 };

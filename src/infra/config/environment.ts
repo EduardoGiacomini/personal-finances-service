@@ -10,6 +10,6 @@ export const DATABASE_URL = process.env.DATABASE_URL;
 export const ENCRYPTOR_SALT = Number(process.env.ENCRYPTOR_SALT);
 
 export const JWT_SECRET = process.env.JWT_SECRET;
-export const JWT_EXPIRATION_IN_SECONDS = Number(
-  process.env.JWT_EXPIRATION_IN_SECONDS
-);
+export const JWT_TOKEN_EXPIRATION = process.env.JWT_TOKEN_EXPIRATION;
+export const JWT_REFRESH_TOKEN_EXPIRATION =
+  process.env.JWT_REFRESH_TOKEN_EXPIRATION;

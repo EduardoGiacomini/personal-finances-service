@@ -8,8 +8,8 @@ export class JsonWebTokenTokenService implements TokenService {
     this.secret = secret;
   }
 
-  sign(id: string, expiresIn: string | number): string {
-    return sign({ id }, this.secret, { expiresIn });
+  sign(payload: any, expiresIn: string | number): string {
+    return sign(payload, this.secret, { expiresIn });
   }
 
   verify(token: string): any {

@@ -46,9 +46,9 @@ export class CreateAccountUseCase implements UseCase {
 }
 
 export type CreateAccountInput = {
-  name: string;
-  email: string;
-  password: string;
+  name: User["name"];
+  email: User["email"];
+  password: User["password"];
 };
 
 export type CreateAccountOutput = {
