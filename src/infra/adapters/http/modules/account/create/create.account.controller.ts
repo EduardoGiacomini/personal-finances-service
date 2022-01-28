@@ -29,11 +29,11 @@ export class CreateAccountController implements Controller {
 
       const { _id } = user;
 
-      const { token: accessToken } = this.createTokenUseCase.execute({
+      const { token: accessToken } = await this.createTokenUseCase.execute({
         _id,
         tokenExpiration: this.accessTokenExpiration,
       });
-      const { token: refreshToken } = this.createTokenUseCase.execute({
+      const { token: refreshToken } = await this.createTokenUseCase.execute({
         _id,
         tokenExpiration: this.refreshTokenExpiration,
       });

@@ -1,4 +1,4 @@
 export interface TokenService {
-  sign(payload: any, expiresIn: string | number): string;
-  verify(token: string): any;
+  sign(payload: any, expiresIn: string | number): Promise<string>;
+  verify(token: string): Promise<any>;
 }

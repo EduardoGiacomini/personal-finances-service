@@ -8,15 +8,27 @@ export class JsonWebTokenTokenService implements TokenService {
     this.secret = secret;
   }
 
-  sign(payload: any, expiresIn: string | number): string {
-    return sign(payload, this.secret, { expiresIn });
+  sign(payload: any, expiresIn: string | number): Promise<string> {
+    return new Promise((resolve, reject) => {
+      sign(payload, this.secret, { expiresIn }, (err, encoded) => {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve(encoded);
+      });
+    });
   }
 
-  verify(token: string): any {
-    try {
-      return verify(token, this.secret);
-    } catch (error) {
-      return null;
-    }
+  verify(token: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      verify(token, this.secret, (err, decoded) => {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve(decoded);
+      });
+    });
   }
 }

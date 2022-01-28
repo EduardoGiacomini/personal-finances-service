@@ -5,13 +5,16 @@ import { TokenService } from "@domain/ports/services";
 export class CreateTokenUseCase implements UseCase {
   constructor(private readonly tokenService: TokenService) {}
 
-  execute({ _id, tokenExpiration }: CreateTokenInput): CreateTokenOutput {
-    const token = this.createToken(_id, tokenExpiration);
+  async execute({
+    _id,
+    tokenExpiration,
+  }: CreateTokenInput): Promise<CreateTokenOutput> {
+    const token = await this.createToken(_id, tokenExpiration);
     return { token };
   }
 
-  private createToken(_id, tokenExpiration) {
-    return this.tokenService.sign({ _id }, tokenExpiration);
+  private async createToken(_id, tokenExpiration) {
+    return await this.tokenService.sign({ _id }, tokenExpiration);
   }
 }
 

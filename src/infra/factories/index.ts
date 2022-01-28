@@ -1,4 +1,11 @@
-import { AuthenticateAccountFactory } from "./account";
-import { CreateAccountFactory } from "./account";
+import {
+  AuthenticateAccountFactory,
+  CreateAccountFactory,
+  RefreshTokenAccountFactory,
+} from "./account";
 
-export default { AuthenticateAccountFactory, CreateAccountFactory };
+export default {
+  AuthenticateAccountFactory,
+  CreateAccountFactory,
+  RefreshTokenAccountFactory,
+};
