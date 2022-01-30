@@ -13,7 +13,7 @@ import {
   ENCRYPTOR_SALT,
   JWT_REFRESH_TOKEN_EXPIRATION,
   JWT_SECRET,
-  JWT_TOKEN_EXPIRATION,
+  JWT_ACCESS_TOKEN_EXPIRATION,
 } from "@infra/config/environment";
 
 export class AuthenticateAccountFactory {
@@ -29,7 +29,7 @@ export class AuthenticateAccountFactory {
     const route = new AuthenticateAccountRoute(
       authenticateUseCase,
       createTokenUseCase,
-      JWT_TOKEN_EXPIRATION,
+      JWT_ACCESS_TOKEN_EXPIRATION,
       JWT_REFRESH_TOKEN_EXPIRATION
     );
     return route.getRoute();

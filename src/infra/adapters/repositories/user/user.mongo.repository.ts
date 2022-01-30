@@ -4,10 +4,14 @@ import { User } from "@domain/entities";
 import {
   CreateUserRepository,
   GetByEmailUserRepository,
+  GetByIdUserRepository,
 } from "@domain/ports/repositories/user";
 
 export class UserMongoRepository
-  implements CreateUserRepository, GetByEmailUserRepository
+  implements
+    CreateUserRepository,
+    GetByEmailUserRepository,
+    GetByIdUserRepository
 {
   private readonly User: Model<User>;
 
@@ -21,7 +25,11 @@ export class UserMongoRepository
     return user;
   }
 
-  async getByEmail(email: string): Promise<User> {
+  async getByEmail(email: User["email"]): Promise<User> {
     return this.User.findOne({ email });
+  }
+
+  async getById(_id: User["_id"]): Promise<User> {
+    return this.User.findOne({ _id });
   }
 }
