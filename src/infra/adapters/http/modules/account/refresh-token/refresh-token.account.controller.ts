@@ -12,7 +12,7 @@ export class RefreshTokenAccountController implements Controller {
     private readonly validateTokenUseCase: ValidateTokenUseCase,
     private readonly createTokenUseCase: CreateTokenUseCase,
     private readonly getUserByIdUseCase: GetByIdUserUseCase,
-    private readonly accessTokenExpiration: string
+    private readonly accessTokenExpiration: number
   ) {}
 
   async execute(

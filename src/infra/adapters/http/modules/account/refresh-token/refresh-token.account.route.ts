@@ -14,7 +14,7 @@ export class RefreshTokenAccountRoute implements Route {
     private readonly validateTokenUseCase: ValidateTokenUseCase,
     private readonly createTokenUseCase: CreateTokenUseCase,
     private readonly getByIdUserUseCase: GetByIdUserUseCase,
-    private readonly accessTokenExpiration: string
+    private readonly accessTokenExpiration: number
   ) {
     this.route = Router();
     this.route.post(

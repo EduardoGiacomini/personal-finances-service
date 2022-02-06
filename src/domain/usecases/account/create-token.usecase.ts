@@ -20,7 +20,7 @@ export class CreateTokenUseCase implements UseCase {
 
 export type CreateTokenInput = {
   _id: User["_id"];
-  tokenExpiration: string;
+  tokenExpiration: number;
 };
 
 export type CreateTokenOutput = {

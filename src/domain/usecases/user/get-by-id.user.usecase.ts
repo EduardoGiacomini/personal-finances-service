@@ -17,7 +17,7 @@ export class GetByIdUserUseCase implements UseCase {
     return this.getByIdUserRepository.getById(_id);
   }
 
-  private async throwAnErrorIfUserDoesNotExist(user) {
+  private throwAnErrorIfUserDoesNotExist(user) {
     if (!user) {
       throw new UserDoesNotExistException();
     }
@@ -25,7 +25,7 @@ export class GetByIdUserUseCase implements UseCase {
 }
 
 export type GetByIdUserInput = {
-  _id: string;
+  _id: User["_id"];
 };
 
 export type GetByIdUserOutput = {

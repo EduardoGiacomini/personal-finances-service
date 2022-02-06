@@ -9,8 +9,8 @@ export class CreateAccountController implements Controller {
   constructor(
     private readonly createAccountUseCase: CreateAccountUseCase,
     private readonly createTokenUseCase: CreateTokenUseCase,
-    private readonly accessTokenExpiration: string,
-    private readonly refreshTokenExpiration: string
+    private readonly accessTokenExpiration: number,
+    private readonly refreshTokenExpiration: number
   ) {}
 
   async execute(

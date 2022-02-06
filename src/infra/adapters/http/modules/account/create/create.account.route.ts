@@ -14,8 +14,8 @@ export class CreateAccountRoute implements Route {
   constructor(
     private readonly createAccountUseCase: CreateAccountUseCase,
     private readonly createTokenUseCase: CreateTokenUseCase,
-    private readonly accessTokenExpiration: string,
-    private readonly refreshTokenExpiration: string
+    private readonly accessTokenExpiration: number,
+    private readonly refreshTokenExpiration: number
   ) {
     this.route = Router();
     this.route.post(

@@ -49,8 +49,8 @@ export class AuthenticateAccountUseCase implements UseCase {
 }
 
 export type AuthenticateInput = {
-  email: string;
-  password: string;
+  email: User["email"];
+  password: User["password"];
 };
 
 export type AuthenticateOutput = {
