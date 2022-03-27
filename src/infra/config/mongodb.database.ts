@@ -2,6 +2,11 @@ import { connect } from "mongoose";
 
 export class MongoDBDatabase {
   static async connect(url: string): Promise<void> {
-    await connect(url);
+    try {
+      await connect(url);
+    } catch (error) {
+      console.error("Error on connect to MongoDB: ", error);
+      process.exit(1);
+    }
   }
 }

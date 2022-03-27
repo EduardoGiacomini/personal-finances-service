@@ -1,4 +1,6 @@
+import { Token, TokenPayload } from "@domain/entities";
+
 export interface TokenService {
-  sign(payload: any, expiresIn: number): Promise<string>;
-  verify(token: string): Promise<any>;
+  sign(payload: TokenPayload, expiresIn: number): Promise<Token>;
+  verify(token: Token): Promise<TokenPayload>;
 }

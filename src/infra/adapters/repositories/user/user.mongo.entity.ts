@@ -32,6 +32,7 @@ const userSchema = new Schema<User>(
     timestamps: true,
     toJSON: {
       transform: function (doc, ret) {
+        // Note: prevent return the password to the client
         delete ret.password;
       },
     },

@@ -1,3 +1,4 @@
+import { Scopes, Token, TokenPayload } from "./auth";
 import { User } from "./user";
 
-export { User };
+export { Scopes, Token, TokenPayload, User };

@@ -1,11 +1,3 @@
-import {
-  AuthenticateAccountFactory,
-  CreateAccountFactory,
-  RefreshTokenAccountFactory,
-} from "./account";
+import * as authFactories from "./auth";
 
-export default {
-  AuthenticateAccountFactory,
-  CreateAccountFactory,
-  RefreshTokenAccountFactory,
-};
+export default { ...authFactories };

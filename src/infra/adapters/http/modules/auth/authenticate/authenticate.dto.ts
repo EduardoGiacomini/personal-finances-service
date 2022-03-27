@@ -1,11 +1,8 @@
-import { CreateAccountInput } from "@domain/usecases/account/create.account.usecase";
+import { AuthenticateInput } from "@domain/usecases/auth/authenticate.usecase";
 import { IsEmail, IsString, MinLength } from "class-validator";
 import { User } from "@domain/entities";
 
-export class CreateAccountDTO implements CreateAccountInput {
-  @IsString()
-  name: User["name"];
-
+export class AuthenticateDto implements AuthenticateInput {
   @IsEmail()
   email: User["email"];
 

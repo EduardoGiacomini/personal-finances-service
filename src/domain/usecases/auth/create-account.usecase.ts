@@ -5,7 +5,7 @@ import {
   GetByEmailUserRepository,
 } from "@domain/ports/repositories/user";
 import { EncryptorService } from "@domain/ports/services";
-import { UserAlreadyExistsException } from "@domain/exceptions/user";
+import { UserAlreadyExistsException } from "@domain/exceptions/domain/user";
 
 export class CreateAccountUseCase implements UseCase {
   constructor(
@@ -19,19 +19,22 @@ export class CreateAccountUseCase implements UseCase {
     email,
     password,
   }: CreateAccountInput): Promise<CreateAccountOutput> {
-    await this.thrownExceptionIfTheEmailIsAlreadyInUse(email);
+    await this.checkIfTheEmailIsAlreadyInUse(email);
+
     const encryptedPassword = await this.encryptUserPassword(password);
-    const user = await this.createUser({
+    let user = await this.createUser({
       name,
       email,
       password: encryptedPassword,
     });
-    user.password = undefined;
+    user = this.hideUserPassword(user);
+
     return { user };
   }
 
-  private async thrownExceptionIfTheEmailIsAlreadyInUse(email) {
-    if (await this.getByEmailUserRepository.getByEmail(email)) {
+  private async checkIfTheEmailIsAlreadyInUse(email) {
+    const user = await this.getByEmailUserRepository.getByEmail(email);
+    if (user) {
       throw new UserAlreadyExistsException();
     }
   }
@@ -42,6 +45,11 @@ export class CreateAccountUseCase implements UseCase {
 
   private async createUser(user) {
     return this.createUserRepository.createUser(user);
+  }
+
+  private hideUserPassword(user) {
+    user.password = undefined;
+    return user;
   }
 }
 

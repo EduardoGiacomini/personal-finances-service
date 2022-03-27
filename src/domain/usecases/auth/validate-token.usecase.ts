@@ -13,6 +13,7 @@ export class ValidateTokenUseCase implements UseCase {
     try {
       return this.tokenService.verify(token);
     } catch (err) {
+      // FIXME
       throw err;
     }
   }
