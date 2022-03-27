@@ -1,8 +1,5 @@
-import { ApplicationFactory } from "./infra";
+import { ApplicationFactory } from "@infra/application";
 
-async function start() {
-  const app = ApplicationFactory.create();
-  await app.start();
-}
-
-start();
+(async () => {
+  await ApplicationFactory.create();
+})();

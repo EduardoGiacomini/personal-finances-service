@@ -11,14 +11,8 @@ import {
   DATABASE_URL,
 } from "./config/environment";
 
-export class ApplicationFactory {
-  static create(): Application {
-    return new Application();
-  }
-}
-
-export class Application {
-  private readonly app: Express;
+class Application {
+  public readonly app: Express;
 
   constructor() {
     this.app = express();
@@ -40,10 +34,18 @@ export class Application {
     this.app.use(handleDefaultExceptionMiddleware);
   }
 
-  async start(): Promise<void> {
-    await MongoDBDatabase.connect(DATABASE_URL);
+  start(): void {
     this.app.listen(API_PORT, () => {
-      console.log(`${API_NAME} is running on port ${API_PORT}.`);
+      console.log(`🚀  ${API_NAME} is running on port ${API_PORT}.`);
     });
+  }
+}
+
+export class ApplicationFactory {
+  static async create() {
+    console.log("🦄  Running application");
+    const app = new Application();
+    await MongoDBDatabase.connect(DATABASE_URL);
+    app.start();
   }
 }
