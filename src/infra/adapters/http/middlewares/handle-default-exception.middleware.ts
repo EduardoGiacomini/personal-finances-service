@@ -1,10 +1,9 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 
 export function handleDefaultExceptionMiddleware(
   error: any,
   request: Request,
-  response: Response,
-  next: NextFunction
+  response: Response
 ) {
   console.error(error);
 

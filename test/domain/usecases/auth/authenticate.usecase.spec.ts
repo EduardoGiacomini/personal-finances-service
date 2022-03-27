@@ -2,7 +2,7 @@ import { AuthenticateUseCase } from "@domain/usecases/auth";
 import { UserRepositoryMock } from "../../mocks/repositories";
 import { EncryptorServiceMock, TokenServiceMock } from "../../mocks/services";
 import { EmailOrPasswordIncorrectException } from "@domain/exceptions/domain/auth";
-import {Scopes} from "@domain/entities";
+import { Scopes } from "@domain/entities";
 
 class AuthenticateFactory {
   static create(
