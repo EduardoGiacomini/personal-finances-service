@@ -1,17 +1,19 @@
 import { UseCase } from "@domain/protocol";
-import { User } from "@domain/entities";
+import { User, Wallet } from "@domain/entities";
 import {
   CreateUserRepository,
   GetByEmailUserRepository,
 } from "@domain/ports/repositories/user";
 import { EncryptorService } from "@domain/ports/services";
 import { UserAlreadyExistsException } from "@domain/exceptions/domain/user";
+import { CreateWalletUseCase } from "@domain/usecases/wallet";
 
 export class CreateAccountUseCase implements UseCase {
   constructor(
     private readonly getByEmailUserRepository: GetByEmailUserRepository,
     private readonly createUserRepository: CreateUserRepository,
-    private readonly encryptorService: EncryptorService
+    private readonly encryptorService: EncryptorService,
+    private readonly createWalletUseCase: CreateWalletUseCase,
   ) {}
 
   async execute({
@@ -29,14 +31,14 @@ export class CreateAccountUseCase implements UseCase {
     });
     user = this.hideUserPassword(user);
 
-    return { user };
+    const wallet = await this.createNewWallet(user);
+
+    return { user, wallet };
   }
 
   private async checkIfTheEmailIsAlreadyInUse(email) {
     const user = await this.getByEmailUserRepository.getByEmail(email);
-    if (user) {
-      throw new UserAlreadyExistsException();
-    }
+    if (user) throw new UserAlreadyExistsException();
   }
 
   private async encryptUserPassword(password) {
@@ -51,6 +53,11 @@ export class CreateAccountUseCase implements UseCase {
     user.password = undefined;
     return user;
   }
+
+  private async createNewWallet(user) {
+    const { wallet } = await this.createWalletUseCase.execute({ user });
+    return wallet;
+  }
 }
 
 export type CreateAccountInput = {
@@ -61,4 +68,5 @@ export type CreateAccountInput = {
 
 export type CreateAccountOutput = {
   user: User;
+  wallet: Wallet;
 };
