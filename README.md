@@ -68,10 +68,63 @@ Relationship Diagram:
 
 ### Requirements
 
-### Instalation
+- [Node.js](https://nodejs.org/en/) *(v16 LTS is recommended)*;
+- [Docker](https://www.docker.com/);
+- [docker-compose](https://docs.docker.com/compose/).
 
 ### Running
 
+#### Development
+```bash
+# create the environment file
+cp .env.example .env
+
+# edit the .env file with your configuration
+
+# start the mongodb with docker
+docker-compose -f docker-compose.dev.yaml up --build
+
+# install dependencies
+yarn
+
+# run the service
+yarn start:dev
+```
+
+#### Production
+```bash
+# create the environment file
+cp .env.example .env
+
+# edit the .env file with your configuration
+
+# create the docker network
+docker network create personal-finances-network
+
+# start the mongodb and service with docker
+docker-compose up --build
+```
+
+#### Tests
+```bash
+# install dependencies
+yarn
+
+# run tests
+yarn test
+```
+
+#### Lint
+```bash
+# install dependencies
+yarn
+
+# run lint
+yarn lint
+```
+
 ## Tests
+
+
 
 ## Stack
