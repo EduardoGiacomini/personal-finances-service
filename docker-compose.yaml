@@ -1,0 +1,30 @@
+version: "3.1"
+
+services:
+  api:
+    build: .
+    container_name: personal-finances-service
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+  database:
+    image: mongo
+    container_name: personal-finances-database
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: finances
+      MONGO_INITDB_ROOT_PASSWORD: finances
+    volumes:
+      - ./docker/database:/data/db
+    command: mongod --quiet --logpath /dev/null
+
+networks:
+  default:
+    external:
+      name: personal-finances-network

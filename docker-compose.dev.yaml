@@ -3,7 +3,7 @@ version: "3.1"
 services:
   database:
     image: mongo
-    container_name: personal-service-database
+    container_name: personal-finances-database
     ports:
       - "27017:27017"
     environment:
