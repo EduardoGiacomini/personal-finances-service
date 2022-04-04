@@ -1,3 +1,4 @@
+import { Logger } from "@infra/config/logger";
 import { Request, Response, NextFunction } from "express";
 
 export function handleDefaultExceptionMiddleware(
@@ -12,9 +13,9 @@ export function handleDefaultExceptionMiddleware(
   const code = error.code || "INTERNAL_SERVER_ERROR";
 
   if (status >= 500) {
-    console.error("💥💥💥 INTERNAL SERVER ERROR 💥💥💥");
-    console.error(error);
-    console.error("💥💥💥 INTERNAL SERVER ERROR 💥💥💥");
+    Logger.error("💥💥💥 INTERNAL SERVER ERROR 💥💥💥");
+    Logger.error(error);
+    Logger.error("💥💥💥 INTERNAL SERVER ERROR 💥💥💥");
   }
 
   response.status(status).send({ status, message, code });

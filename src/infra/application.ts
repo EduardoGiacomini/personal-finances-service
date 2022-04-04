@@ -10,6 +10,7 @@ import {
   API_PREFIX_URL,
   DATABASE_URL,
 } from "./config/environment";
+import { Logger } from "./config/logger";
 
 class Application {
   public readonly app: Express;
@@ -36,14 +37,14 @@ class Application {
 
   start(): void {
     this.app.listen(API_PORT, () => {
-      console.log(`🚀  ${API_NAME} is running on port ${API_PORT}.`);
+      Logger.info(`🚀  ${API_NAME} is running on port ${API_PORT}.`);
     });
   }
 }
 
 export class ApplicationFactory {
   static async create() {
-    console.log("🦄  Running application");
+    Logger.info("🦄  Running application");
     const app = new Application();
     await MongoDBDatabase.connect(DATABASE_URL);
     app.start();

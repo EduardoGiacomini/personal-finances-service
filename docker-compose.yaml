@@ -9,6 +9,8 @@ services:
       - ./env/service/.env  
     ports:
       - "3000:3000"
+    volumes:
+      - ./docker/service:/app/logs
     depends_on:
       - mongodb
 

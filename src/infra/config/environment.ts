@@ -4,6 +4,7 @@ require("dotenv").config({ path: process.cwd() + "/env/service/.env" });
 export const API_NAME = process.env.API_NAME;
 export const API_PORT = process.env.API_PORT;
 export const API_PREFIX_URL = process.env.API_PREFIX_URL;
+export const API_LOG_LEVEL = process.env.API_LOG_LEVEL;
 
 export const DATABASE_URL = process.env.DATABASE_URL;
 

@@ -1,12 +1,13 @@
 import { connect } from "mongoose";
+import { Logger } from "./logger";
 
 export class MongoDBDatabase {
   static async connect(url: string): Promise<void> {
     try {
       await connect(url);
-      console.log("🌱  MongoDB connected");
+      Logger.info("🌱  MongoDB connected");
     } catch (error) {
-      console.error("⚠️  Error on connect to MongoDB: ", error);
+      Logger.error("⚠️  Error on connect to MongoDB: ", error);
       process.exit(1);
     }
   }
