@@ -32,7 +32,7 @@ export class CreateWalletUseCase implements UseCase {
 }
 
 export type CreateWalletInput = {
-  user: User;
+  user: User | User["_id"];
 };
 
 export type CreateWalletOutput = {

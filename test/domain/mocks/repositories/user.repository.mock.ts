@@ -10,7 +10,7 @@ const user = {
 };
 
 export const UserRepositoryMock = {
-  user: user,
+  user,
   createUser: jest.fn().mockReturnValue(Promise.resolve(user)),
   getByEmail: jest.fn().mockReturnValue(Promise.resolve(user)),
   getById: jest.fn().mockReturnValue(Promise.resolve(user)),
