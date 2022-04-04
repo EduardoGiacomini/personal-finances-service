@@ -1,27 +1,26 @@
-version: "3.1"
+version: "3.3"
 
 services:
-  api:
+  service:
     build: .
     container_name: personal-finances-service
     restart: always
     env_file:
-      - .env
+      - ./env/service/.env  
     ports:
-      - "8080:8080"
+      - "3000:3000"
     depends_on:
-      - database
+      - mongodb
 
-  database:
+  mongodb:
     image: mongo
     container_name: personal-finances-database
+    env_file:
+      - ./env/mongodb/.env
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: finances
-      MONGO_INITDB_ROOT_PASSWORD: finances
     volumes:
-      - ./docker/database:/data/db
+      - ./docker/mongodb:/data/db
     command: mongod --quiet --logpath /dev/null
 
 networks:

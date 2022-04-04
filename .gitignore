@@ -1,5 +1,6 @@
 # Compiled output
 /dist
+/build
 /node_modules
 
 # Logs
@@ -36,3 +37,6 @@ lerna-debug.log*
 
 # Env
 .env
+
+# Docker volumes
+/docker

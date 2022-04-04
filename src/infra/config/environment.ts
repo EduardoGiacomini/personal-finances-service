@@ -1,5 +1,5 @@
 /* eslint-disable */
-require("dotenv").config();
+require("dotenv").config({ path: process.cwd() + "/env/service/.env" });
 
 export const API_NAME = process.env.API_NAME;
 export const API_PORT = process.env.API_PORT;
