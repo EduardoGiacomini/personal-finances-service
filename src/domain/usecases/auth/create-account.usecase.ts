@@ -13,7 +13,7 @@ export class CreateAccountUseCase implements UseCase {
     private readonly getByEmailUserRepository: GetByEmailUserRepository,
     private readonly createUserRepository: CreateUserRepository,
     private readonly encryptorService: EncryptorService,
-    private readonly createWalletUseCase: CreateWalletUseCase
+    private readonly createWalletUseCase: CreateWalletUseCase | UseCase
   ) {}
 
   async execute({
